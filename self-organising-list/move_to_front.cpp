@@ -57,6 +57,7 @@ int main() {
     return 0;
 }
 
+// Method to insert into the linked list
 void List::insert(int data) {
     Node* temp = new Node;
     temp->data = data;
@@ -64,6 +65,7 @@ void List::insert(int data) {
     head = temp;
 }
 
+// Method to display the linked list
 void List::display() {
     Node* temp = head;
     while(temp != NULL) {
@@ -73,6 +75,7 @@ void List::display() {
     cout << endl;
 }
 
+// Method to search for a data in the linked list
 void List::search(int data) {
     Node* temp = head;
     while(temp != NULL) {
@@ -86,6 +89,7 @@ void List::search(int data) {
     cout << "Data not found\n";
 }
 
+// Method to search for a data in the linked list and move it to front
 void List::searchAndMoveToFront(int data) {
     Node* temp = head;
     Node* prev = NULL;
