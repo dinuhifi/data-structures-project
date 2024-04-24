@@ -18,8 +18,6 @@ class List {
         void display();
         void search(int);
         void searchAndMoveToFront(int);
-        void searchAndCount(int);
-        void searchAndTranspose(int);
 };
 
 int main() {
@@ -49,16 +47,6 @@ int main() {
                 cout << "Enter data to move to front: ";
                 cin >> data;
                 list.searchAndMoveToFront(data);
-                break;
-            case 5:
-                cout << "Enter data to count: ";
-                cin >> data;
-                //list.searchAndCount(data);
-                break;
-            case 6:
-                cout << "Enter data to transpose: ";
-                cin >> data;
-                //list.searchAndTranspose(data);
                 break;
             case 7:
                 exit(0);
@@ -114,14 +102,4 @@ void List::searchAndMoveToFront(int data) {
         prev = temp;
         temp = temp->next;
     }
-}
-
-// To be Implemented
-void List::searchAndCount(int data) {
-
-}
-
-// To be Implemented
-void List::searchAndTranspose(int data) {
-
 }
