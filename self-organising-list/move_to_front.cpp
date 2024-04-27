@@ -7,7 +7,6 @@ using namespace std;
 class List {
     struct Node {
         int data;
-        int count = 0;
         Node *next;
     } *head;
     public:
@@ -17,6 +16,7 @@ class List {
         void insert(int);
         void display();
         void search(int);
+        int deleteNode(int);
         void searchAndMoveToFront(int);
 };
 
@@ -27,7 +27,7 @@ int main() {
         getchar();
         getchar();
         system("cls");
-        cout << "1. Insert\n2. Display\n3. Search\n4. Search & Move to Front\n5. Search & Count\n6.Search & Transpose\n7. Exit\nEnter your choice: ";
+        cout << "1. Insert\n2. Display\n3. Search\n4. Search & Move to Front\n5. Delete\n6. Exit\nEnter your choice: ";
         cin >> choice;
         switch(choice) {
             case 1:
@@ -48,7 +48,16 @@ int main() {
                 cin >> data;
                 list.searchAndMoveToFront(data);
                 break;
-            case 7:
+            case 5:
+                cout << "Enter data to delete: ";
+                cin >> data;
+                if(list.deleteNode(data)) {
+                    cout << "Data deleted\n";
+                } else {
+                    cout << "Data not found\n";
+                }
+                break;
+            case 6:
                 exit(0);
             default:
                 cout << "Invalid choice\n";
@@ -81,7 +90,6 @@ void List::search(int data) {
     while(temp != NULL) {
         if(temp->data == data) {
             cout << "Data found\n";
-            temp->count++;
             return;
         }
         temp = temp->next;
@@ -106,4 +114,24 @@ void List::searchAndMoveToFront(int data) {
         prev = temp;
         temp = temp->next;
     }
+}
+
+// Method to delete a node from the linked list
+int List::deleteNode(int data) {
+    Node* temp = head;
+    Node* prev = NULL;
+    while(temp) {
+        if(temp->data == data) {
+            if(prev) {
+                prev->next = temp->next;
+            } else {
+                head = temp->next;
+            }
+            delete temp;
+            return 1;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+    return 0;
 }
