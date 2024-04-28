@@ -1,137 +1,164 @@
-// Implementation of Self Oranizing List using Linked List
+// implementing self organising list using move-to-front principle
 
-#include <iostream>
+#include <stdio.h>
 #include <stdlib.h>
-using namespace std;
 
-class List {
-    struct Node {
-        int data;
-        Node *next;
-    } *head;
-    public:
-        List() {
-            head = NULL;
-        }
-        void insert(int);
-        void display();
-        void search(int);
-        int deleteNode(int);
-        void searchAndMoveToFront(int);
+class self_org_list{
+	struct node{
+		int data; 
+		node* next;
+	};
+	struct node* head;
+	public:
+	self_org_list(){
+		head = NULL;
+	};
+	void movetofront(int);
+	int insbeg(int);
+	int insend(int);
+	int delposn(int);
+	int search(int);
+	void display();
+	
 };
 
-int main() {
-    List list;
-    int choice, data;
-    while(1) {
-        getchar();
-        getchar();
-        system("cls");
-        cout << "1. Insert\n2. Display\n3. Search\n4. Search & Move to Front\n5. Delete\n6. Exit\nEnter your choice: ";
-        cin >> choice;
-        switch(choice) {
-            case 1:
-                cout << "Enter data: ";
-                cin >> data;
-                list.insert(data);
-                break;
-            case 2:
-                list.display();
-                break;
-            case 3:
-                cout << "Enter data to search: ";
-                cin >> data;
-                list.search(data);
-                break;
-            case 4:
-                cout << "Enter data to move to front: ";
-                cin >> data;
-                list.searchAndMoveToFront(data);
-                break;
-            case 5:
-                cout << "Enter data to delete: ";
-                cin >> data;
-                if(list.deleteNode(data)) {
-                    cout << "Data deleted\n";
-                } else {
-                    cout << "Data not found\n";
-                }
-                break;
-            case 6:
-                exit(0);
-            default:
-                cout << "Invalid choice\n";
-        }
-    }
-    return 0;
+int main(){
+
+	self_org_list l1;
+	int num, choice, posn;
+	while(1){
+		printf("\n1. Insert Begin\n2. Delete Position\n3. Search\n4. Display\n5. Exit\n");
+		printf("\nEnter your choice: \n");
+		scanf("%d", &choice);
+		switch(choice){
+			case 1:
+				printf("Enter number to insert: \n");
+				scanf("%d", &num);
+				if(l1.insbeg(num)){
+					printf("Number successfully inserted. \n");
+				}
+				else{
+					printf("Number cannot be inserted. \n");
+				}
+				break;
+			case 2:
+				l1.display();
+				printf("Enter index value of number to be deleted. \n");
+				scanf("%d", &posn);
+				if(l1.delposn(posn)){
+					printf("Number successfully deleted. \n");
+				}
+				else{
+					printf("Number cannot be deleted. \n");
+				}
+				break;
+			case 3:
+				printf("Enter element to be searched for: \n");
+				scanf("%d", &num);
+				if(l1.search(num)){
+					printf("Number present in list. \n");
+					l1.movetofront(num);
+				}
+				else{
+					printf("Number not present in list. \n");
+				}
+				break;
+			case 4:
+				l1.display();
+				printf("\n");
+				break;
+			case 5:
+				exit(0);
+				break;
+			default:
+				printf("Enter the right choice. \n");
+				break;
+		}			
+	}
+	return 0;
 }
 
-// Method to insert into the linked list
-void List::insert(int data) {
-    Node* temp = new Node;
-    temp->data = data;
-    temp->next = head;
-    head = temp;
+int self_org_list::insbeg(int num){
+	struct node* newnode;
+	newnode = (struct node*)malloc(sizeof(struct node*));
+	if (newnode==NULL){
+		return 0;
+	}
+	else{
+		newnode->data = num;
+		newnode->next = head;
+		head = newnode;
+		return 1;
+	}
 }
 
-// Method to display the linked list
-void List::display() {
-    Node* temp = head;
-    while(temp != NULL) {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-    cout << endl;
+int self_org_list::delposn(int posn){
+	struct node* newnode;
+	struct node* temp;
+	newnode = head;
+	for(int i=0;i<posn;i++){
+		temp = newnode;
+		newnode = newnode->next;
+		if (newnode==NULL){
+			return 0;
+		}
+	}
+	temp->next = newnode->next;
+	free(newnode);
+	return 1;
 }
 
-// Method to search for a data in the linked list
-void List::search(int data) {
-    Node* temp = head;
-    while(temp != NULL) {
-        if(temp->data == data) {
-            cout << "Data found\n";
-            return;
-        }
-        temp = temp->next;
-    }
-    cout << "Data not found\n";
+int self_org_list::search(int num){
+	struct node* newnode;
+	newnode = head;
+	int flag = 1;
+	int index = 1;
+	if (newnode == NULL){
+		return 0;
+	}
+	else{
+		while(newnode!=NULL){
+			if (newnode->data==num){
+				return index;
+				flag = 1;
+			}
+			else{
+				flag = 0;
+				index = index + 1;
+			}
+			newnode = newnode->next;
+		}
+		if (flag==0){
+			return 0;
+		}
+	}
+return 1;
 }
 
-// Method to search for a data in the linked list and move it to front
-void List::searchAndMoveToFront(int data) {
-    Node* temp = head;
-    Node* prev = NULL;
-    while(temp) {
-        if(temp->data == data) {
-            if(prev) {
-                prev->next = temp->next;
-                temp->next = head;
-                head = temp;
-            }
-            cout << "Data moved to front\n";
-            return;
-        }
-        prev = temp;
-        temp = temp->next;
-    }
+void self_org_list::movetofront(int num){
+	int posn;
+	struct node* newnode;
+	newnode = head;
+	if (newnode==NULL){
+		printf("List is empty.\n");
+	}
+	posn = search(num);
+	if(posn){
+		delposn(posn-1);
+		insbeg(num);
+		return;
+	}
+	else{
+		return;
+	}
 }
 
-// Method to delete a node from the linked list
-int List::deleteNode(int data) {
-    Node* temp = head;
-    Node* prev = NULL;
-    while(temp) {
-        if(temp->data == data) {
-            if(prev) {
-                prev->next = temp->next;
-            } else {
-                head = temp->next;
-            }
-            delete temp;
-            return 1;
-        }
-        prev = temp;
-        temp = temp->next;
-    }
-    return 0;
+void self_org_list::display(){
+	struct node* newnode;
+	newnode = head;
+	while(newnode!=NULL){
+		printf("%d", newnode->data);
+		newnode = newnode->next;
+		printf(" ");
+	}
 }
