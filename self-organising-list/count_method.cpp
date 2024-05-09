@@ -23,7 +23,10 @@ int main(){
     linkedlist l1;
     int num,n,choice;
     while(1){
+        getchar();
+        getchar();
         system("cls");
+
         printf("Enter the operation:\n1.Insert number at end\n2.Delete the number\n3.search number\n4.display\nEnter your choice:\n");
         scanf("%d",&choice);
         switch(choice){

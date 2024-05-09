@@ -16,6 +16,7 @@ class DisjointSet {
             return nodes[data];
         }
         void makeSet(int);
+        void findSet(int);
         Node* findSet(Node*);
         void unionSets(int, int);
 };
@@ -23,7 +24,7 @@ class DisjointSet {
 int main() {
     DisjointSet ds;
     
-    int choice, data, data1, data2;
+    int choice, data, data1, data2, result;
     while (true) {
         
         getchar();
@@ -39,26 +40,23 @@ int main() {
         cin >> choice;
 
         switch (choice) {
-            case 1: {
+            case 1:
                 cout << "Enter data: ";
                 cin >> data;
                 ds.makeSet(data);
                 break;
-            }
-            case 2: {
+            case 2:
                 cout << "Enter data 1: ";
                 cin >> data1;
                 cout << "Enter data 2: ";
                 cin >> data2;
                 ds.unionSets(data1, data2);
                 break;
-            }
-            case 3: {
+            case 3:
                 cout << "Enter data: ";
                 cin >> data;
-                cout << "Parent of " << data << " is " << ds.findSet(ds.getNode(data))->parent->data << endl;
+                ds.findSet(data);
                 break;
-            }
             case 4:
                 return 0;
             default:
@@ -77,21 +75,41 @@ void DisjointSet::makeSet(int data) {
         nodes[data] = newNode;
 }
 
+void DisjointSet::findSet(int data) {
+    Node* node = nodes[data];
+    if(node == NULL) {
+        cout << "Node is not present in the set." << endl;
+        return;
+    }
+    Node* parent = findSet(node);
+    cout << "Parent of " << data << " is " << parent->data << endl;
+}
+
 DisjointSet::Node* DisjointSet::findSet(Node* node) {
-        if (node != node->parent) {
-            node->parent = findSet(node->parent);
-        }
-        return node->parent;
+    if(node == NULL) {
+        cout << "Node is not present in the set." << endl;
+        return NULL;
+    }
+    if (node != node->parent) {
+        node->parent = findSet(node->parent);
+    }
+    return node->parent;
 }
 
 void DisjointSet::unionSets(int data1, int data2) {
         Node* node1 = nodes[data1];
         Node* node2 = nodes[data2];
 
+        if(!node1 || !node2) {
+            cout << "One or both nodes are not present in the set." << endl;
+            return;
+        }
+
         Node* parent1 = findSet(node1);
         Node* parent2 = findSet(node2);
 
         if (parent1 == parent2) {
+            cout << "Both nodes are present in the same set." << endl;
             return;
         }
 

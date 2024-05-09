@@ -27,6 +27,9 @@ int main(){
 	self_org_list l1;
 	int num, choice, posn;
 	while(1){
+		getchar();
+		getchar();
+		system("cls");
 		printf("\n1. Insert Begin\n2. Delete Position\n3. Search\n4. Display\n5. Exit\n");
 		printf("\nEnter your choice: \n");
 		scanf("%d", &choice);
