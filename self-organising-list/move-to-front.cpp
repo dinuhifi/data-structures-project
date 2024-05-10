@@ -27,9 +27,6 @@ int main(){
 	self_org_list l1;
 	int num, choice, posn;
 	while(1){
-		getchar();
-		getchar();
-		system("cls");
 		printf("\n1. Insert Begin\n2. Delete Position\n3. Search\n4. Display\n5. Exit\n");
 		printf("\nEnter your choice: \n");
 		scanf("%d", &choice);
@@ -38,10 +35,10 @@ int main(){
 				printf("Enter number to insert: \n");
 				scanf("%d", &num);
 				if(l1.insbeg(num)){
-					printf("Number successfully inserted. \n");
+					printf("successfully inserted %d. \n",num);
 				}
 				else{
-					printf("Number cannot be inserted. \n");
+					printf("%d cannot be inserted. \n",num);
 				}
 				break;
 			case 2:
@@ -81,18 +78,32 @@ int main(){
 	return 0;
 }
 
-int self_org_list::insbeg(int num){
-	struct node* newnode;
-	newnode = (struct node*)malloc(sizeof(struct node*));
-	if (newnode==NULL){
-		return 0;
-	}
-	else{
-		newnode->data = num;
-		newnode->next = head;
-		head = newnode;
-		return 1;
-	}
+int self_org_list::insbeg(int n){
+    struct node *temp= (struct node *)malloc(sizeof(struct node));
+    struct node *newnode=(struct node *)malloc(sizeof(struct node));
+    newnode->data=n;
+    newnode->next=NULL;
+    temp=head;
+    if(temp==NULL){
+        head=newnode;
+        return 1;
+    }
+    
+   else{
+        while(temp->next!=NULL){
+        if(temp->data==n){
+            printf("already element is preent in the list.\n");
+            return 0;
+        }
+        temp=temp->next;
+    }
+   }
+   if(temp->data==n){
+       printf("already element is present in the list.\n");
+       return 0;
+   }
+    temp->next=newnode;
+    return 1;
 }
 
 int self_org_list::delposn(int posn){

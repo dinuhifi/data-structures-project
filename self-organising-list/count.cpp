@@ -5,9 +5,10 @@ struct node{
     int data;
     int count;
     struct node *next;
-} *head;
+};
 
 class linkedlist{
+    struct node *head;
     public:
        linkedlist(){
            head=NULL;
@@ -15,7 +16,7 @@ class linkedlist{
     
        int insert(int);
        int display();
-       int deleteNode(int);
+       int delete_num(int);
        int search(int);
 };
 
@@ -23,11 +24,7 @@ int main(){
     linkedlist l1;
     int num,n,choice;
     while(1){
-        getchar();
-        getchar();
-        system("cls");
-
-        printf("Enter the operation:\n1.Insert number at end\n2.Delete the number\n3.search number\n4.display\nEnter your choice:\n");
+        printf("Enter the operation:\n1.Insert number at end\n2.Delete the number\n3.search number\n4.display\n5.Exit\nEnter your choice:\n");
         scanf("%d",&choice);
         switch(choice){
             case 1:printf("Enter the number to insert at end:\n");
@@ -45,18 +42,27 @@ int main(){
 
             case 2:printf("Enter the number to delete:\n");
                    scanf("%d",&n);
-                   if(l1.deleteNode(n)){
-                    printf("Successfully deleted %d\n",n);
+                   if(l1.delete_num(n)==1){
+                    printf("%d is present in the list and deleted.\n",n);
                    }
                    else{
-                    printf("Failed to delete %d\n",n);
+                    printf("%d not present in the list and not deleted.\n",n);
                    }
-                   break;
+                   break; 
 
             case 3:printf("Enter the number to search:\n") ;
                    scanf("%d",&n);
-                   l1.search(n);
-                   break;          
+                   if(l1.search(n)==1){
+                       printf("%d found in the list.\n");
+                   }
+                   else{
+                       printf("%d not found.\n");
+                   }
+                   break;   
+            case 5:exit(0);
+                   break;
+            default:printf("Enter a valid input.\n");
+                    break;       
         }
     }
 }
@@ -65,17 +71,25 @@ int linkedlist::insert(int n){
     struct node *temp= (struct node *)malloc(sizeof(struct node));
     struct node *newnode=(struct node *)malloc(sizeof(struct node));
     newnode->data=n;
-    newnode->count=0;
     newnode->next=NULL;
     temp=head;
     if(temp==NULL){
         head=newnode;
         return 1;
     }
+    
    else{
         while(temp->next!=NULL){
+        if(temp->data==n){
+            printf("already element is preent in the list.\n");
+            return 0;
+        }
         temp=temp->next;
     }
+   }
+   if(temp->data==n){
+       printf("already element is present in the list.\n");
+       return 0;
    }
     temp->next=newnode;
     return 1;
@@ -98,23 +112,31 @@ int linkedlist::display(){
     return 1;
 }
 
-int linkedlist::deleteNode(int data) {
-    node* temp = head;
-    node* prev = NULL;
-    while(temp) {
-        if(temp->data == data) {
-            if(prev) {
-                prev->next = temp->next;
-            } else {
-                head = temp->next;
-            }
-            delete temp;
-            return 1;
-        }
-        prev = temp;
-        temp = temp->next;
+int linkedlist::delete_num(int n){
+    struct node *temp=(struct node *)malloc(sizeof(struct node));
+    temp=head;
+    struct node *temp2;
+    if(head==NULL){
+
+        return 0;
     }
-    return 0;
+    else if(head->data==n){
+        temp=head->next;
+        head=NULL;
+        head=temp;
+        return 1;
+    } 
+    else{
+        while(temp->next!=NULL){
+            if(temp->next->data==n){
+                temp2=temp->next->next;
+                temp->next=temp2;
+                return 1;
+            }
+            temp=temp->next;
+        }
+        return 0;
+    }
 }
 
 int linkedlist::search(int key)

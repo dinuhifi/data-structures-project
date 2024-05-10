@@ -86,10 +86,6 @@ void DisjointSet::findSet(int data) {
 }
 
 DisjointSet::Node* DisjointSet::findSet(Node* node) {
-    if(node == NULL) {
-        cout << "Node is not present in the set." << endl;
-        return NULL;
-    }
     if (node != node->parent) {
         node->parent = findSet(node->parent);
     }
